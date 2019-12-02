@@ -40,15 +40,11 @@ Node.prototype = {
 					}
 				);
 
-				if (repr.indexOf("'") !== -1) {
-					if (repr.indexOf('"') !== -1) {
-						// Text contains both ' and ".
-						return "'" + repr.replace(/'/g, "\\'") + "'";
-					} else {
-						return '"' + repr.replace(/"/g, '\\"') + '"';
-					}
+				if (repr.indexOf("'") !== -1 && repr.indexOf('"') === -1) {
+					// Text contains ' but not "
+					return '"' + repr.replace(/"/g, '\\"') + '"';
 				} else {
-					return "'" + repr + "'";
+					return "'" + repr.replace(/'/g, "\\'") + "'";
 				}
 			},
 			Operator: (e) => { return e.label; },
