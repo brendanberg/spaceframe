@@ -30,7 +30,19 @@ Node.prototype = {
 	},
 	toString: function() {
 		const xform = {
-			Integer: (e) => { return e.value.toString(); },
+			Braces: (e) => {
+				if (e.opts.source === 'module') {
+					return e.exprs.join('\n');
+				} else {
+					return '{' + e.exprs.join('\n') + '}';
+				}
+			},
+			Brackets: (e) => { return '[' + e.exprs.join(', ') + ']'; },
+			Parens: (e) => { return '(' + e.exprs.join(', ') + ')'; },
+			Expression: (e) => { return e.terms.join(' '); },
+			Identifier: (e) => { return e.label + (e.modifier || ''); },
+			Symbol: (e) => { return '.' + e.label; },
+			Operator: (e) => { return e.label; },
 			Text: (e) => {
 				const repr = punycode.ucs2.encode(e.value).replace(/[\n\t\\]/g,
 					function(match) {
@@ -49,19 +61,7 @@ Node.prototype = {
 					return "'" + repr.replace(/'/g, "\\'") + "'";
 				}
 			},
-			Operator: (e) => { return e.label; },
-			Symbol: (e) => { return '.' + e.label; },
-			Identifier: (e) => { return e.label + (e.modifier || ''); },
-			Parens: (e) => { return '(' + e.exprs.join(', ') + ')'; },
-			Expression: (e) => { return e.terms.join(' '); },
-			Brackets: (e) => { return '[' + e.exprs.join(', ') + ']'; },
-			Braces: (e) => {
-				if (e.opts.source === 'module') {
-					return e.exprs.join('\n');
-				} else {
-					return '{' + e.exprs.join('\n') + '}';
-				}
-			},
+			Integer: (e) => { return e.value.toString(); },
 			Complex: (e) => { return (e.real ? e.real + ' + ' : '') + e.imaginary + 'j'; },
 			Comment: (e) => {
 				if (e.opts.source === 'inline') {
