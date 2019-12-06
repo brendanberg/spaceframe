@@ -1,5 +1,17 @@
 {
+  "name": "spaceframe",
+  "version": "0.1.0",
+  "description": "Language and object system for the Framethrower Video Engine",
+  "license": "MIT",
+  "repository": "https://github.com/brendanberg/spaceframe",
   "devDependencies": {
+    "jshint": "^2.10.3",
     "pegjs": "^0.10.0"
+  },
+  "dependencies": {
+    "punycode": "^2.1.1"
+  },
+  "jshintConfig": {
+    "esversion": 6
   }
 }
