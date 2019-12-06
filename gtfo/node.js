@@ -1,3 +1,5 @@
+"use strict";
+
 const punycode = require('punycode');
 
 function makeTransform(dict) {
@@ -9,7 +11,7 @@ function makeTransform(dict) {
 		} else {
 			return elt;
 		}
-	}
+	};
 }
 
 function Node(opts) {
@@ -69,7 +71,7 @@ Node.prototype = {
 				}
 			}
 		};
-		return this.pullUp(skel.makeTransform(xform));
+		return this.pullUp(makeTransform(xform));
 	}
 };
 

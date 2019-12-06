@@ -1,17 +1,26 @@
 {
-  "name": "spaceframe",
-  "version": "0.1.0",
-  "description": "Language and object system for the Framethrower Video Engine",
-  "license": "MIT",
-  "repository": "https://github.com/brendanberg/spaceframe",
-  "devDependencies": {
-    "jshint": "^2.10.3",
-    "pegjs": "^0.10.0"
-  },
-  "dependencies": {
-    "punycode": "^2.1.1"
-  },
-  "jshintConfig": {
-    "esversion": 6
-  }
+    "dependencies": {
+        "punycode": "^2.1.1"
+    },
+    "description": "Language and object system for the Framethrower Video Engine",
+    "devDependencies": {
+        "jshint": "^2.10.3",
+        "pegjs": "^0.10.0"
+    },
+    "jshintConfig": {
+        "esversion": 6,
+        "globals": {
+            "module": false,
+            "require": false
+        },
+        "module": "false",
+        "strict": "global"
+    },
+    "license": "MIT",
+    "name": "spaceframe",
+    "repository": "https://github.com/brendanberg/spaceframe",
+    "scripts": {
+        "jshint": "jshint --exclude node_modules,lang.js . && echo 'No complaints from jshint'"
+    },
+    "version": "0.1.0"
 }

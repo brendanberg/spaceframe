@@ -1,3 +1,5 @@
+"use strict";
+
 const { Node, makeTransform } = require('./node');
 
 

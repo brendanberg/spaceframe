@@ -1,3 +1,5 @@
+"use strict";
+
 const { Node } = require('./node');
 const { Envelope } = require('./skeleton');
 
@@ -151,7 +153,7 @@ function Bottom(opts) {
 
 Bottom.prototype = Object.assign(Object.create(Node.prototype), {
 	gmapt: function(fn) { return new this.constructor(this.opts); },
-	constructor: Bottom;
+	constructor: Bottom
 });
 
 
