@@ -154,6 +154,8 @@ module.exports = {
 	makeTransform: makeTransform,
 	Node: Node,
 	Envelope: Envelope,
+	AngleBars: AngleBars,
+	AngleBrackets: AngleBrackets,
 	Braces: Braces,
 	Brackets: Brackets,
 	Parens: Parens,

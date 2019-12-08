@@ -3013,7 +3013,7 @@ function peg$parse(input, options) {
 
   	const punycode = require('punycode');
   	const {
-  		Braces, Parens, Brackets, Expression, Symbol,
+  		AngleBars, AngleBrackets, Braces, Parens, Brackets, Expression, Symbol,
   		Identifier, Operator, Text, Integer, Decimal, Complex, Comment
   	} = require('./skeleton');
 
