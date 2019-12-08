@@ -66,66 +66,75 @@ Parens.prototype = Object.assign(Object.create(Envelope.prototype), {
 });
 
 
-function Expression(atoms, opts) {
+function Expression(terms, opts) {
 	Node.call(this, opts);
-	this.atoms = atoms;
+	this.terms = terms;
 }
 
 Expression.prototype = Object.assign(Object.create(Envelope.prototype), {
 	gmapt: function(fn) {
-		return new this.constructor(this.atoms.map(fn), this.opts);
+		return new this.constructor(this.terms.map(fn), this.opts);
 	},
 	constructor: Expression
 });
 
 
+function Atom(opts) {
+	Node(this, opts);
+}
+
+Atom.prototype = Object.assign(Object.create(Node.prototype), {
+	constructor: Atom
+});
+
+
 function Symbol(label, opts) {
-	Node.call(this, opts);
+	Atom.call(this, opts);
 	this.label = label;
 }
 
-Symbol.prototype = Object.create(Node.prototype);
+Symbol.prototype = Object.create(Atom.prototype);
 Symbol.prototype.constructor = Symbol;
 
 function Identifier(label, modifier, opts) {
-	Node.call(this, opts);
+	Atom.call(this, opts);
 	this.label = label;
 	this.modifier = modifier;
 }
 
-Identifier.prototype = Object.create(Node.prototype);
+Identifier.prototype = Object.create(Atom.prototype);
 Identifier.prototype.constructor = Identifier;
 
 function Operator(label, opts) {
-	Node.call(this, opts);
+	Atom.call(this, opts);
 	this.label = label;
 }
 
-Operator.prototype = Object.create(Node.prototype);
+Operator.prototype = Object.create(Atom.prototype);
 Operator.prototype.constructor = Operator;
 
 function Text(value, opts) {
-	Node.call(this, opts);
+	Atom.call(this, opts);
 	this.value = value;
 }
 
-Text.prototype = Object.create(Node.prototype);
+Text.prototype = Object.create(Atom.prototype);
 Text.prototype.constructor = Text;
 
 function Integer(value, opts) {
-	Node.call(this, opts);
+	Atom.call(this, opts);
 	this.value = value;
 }
 
-Integer.prototype = Object.create(Node.prototype);
+Integer.prototype = Object.create(Atom.prototype);
 Integer.prototype.constructor = Integer;
 
 function Decimal(value, opts) {
-	Node.call(this, opts);
+	Atom.call(this, opts);
 	this.value = value;
 }
 
-Decimal.prototype = Object.create(Node.prototype);
+Decimal.prototype = Object.create(Atom.prototype);
 Decimal.prototype.constructor = Decimal;
 
 function Complex(real, imaginary, opts) {
@@ -153,6 +162,7 @@ Comment.prototype.constructor = Comment;
 module.exports = {
 	makeTransform: makeTransform,
 	Node: Node,
+	Atom: Atom,
 	Envelope: Envelope,
 	AngleBars: AngleBars,
 	AngleBrackets: AngleBrackets,
