@@ -76,9 +76,9 @@ Subscript.prototype = Object.assign(Object.create(Node.prototype), {
 });
 
 
-function PrefixExpression(oper, expr, opts) {
+function PrefixExpression(op, expr, opts) {
 	Node.call(this, opts);
-	this.oper = oper;
+	this.op = op;
 	this.expr = expr;
 }
 
@@ -90,9 +90,9 @@ PrefixExpression.prototype = Object.assign(Object.create(Node.prototype), {
 });
 
 
-function InfixExpression(oper, lexpr, rexpr, opts) {
+function InfixExpression(op, lexpr, rexpr, opts) {
 	Node.call(this, opts);
-	this.oper = oper;
+	this.op = op;
 	this.lexpr = lexpr;
 	this.rexpr = rexpr;
 }
@@ -107,9 +107,9 @@ InfixExpression.prototype = Object.assign(Object.create(Node.prototype), {
 });
 
 
-function Method(ident, args, block, opts) {
+function Method(selector, args, block, opts) {
 	Node.call(this, opts);
-	//this.ident = ident;
+	this.sel = selector;
 	this.args = args;
 	this.block = block;
 }

@@ -69,11 +69,59 @@ Node.prototype = {
 				} else {
 					return '#' + e.text;
 				}
+			},
+
+			Block: (e) => {
+				if (e.opts.source === 'module') {
+					return e.exprs.join('\n');
+				} else {
+					return '{\n' + e.exprs.join('\n') + '\n}';
+				}
+			},
+			Assign: (e) => {
+				return e.ident + ' = ' + e.value;
+			},
+			MessageSend: (e) => {
+				const selector = e.selector.split(':').slice(0, -1);
+				const string = selector.map((n, i) => n + ': ' + e.args[i]).join(', ');
+				return e.receiver + '(' + string + ')';
+			},
+			SymbolLookup: (e) => {
+				return e.receiver + e.symbol;
+			},
+			Subscript: (e) => {
+				return e.receiver + '[' + e.subscript + ']';
+			},
+			PrefixExpression: (e) => {
+				return this.op + this.expr;
+			},
+			InfixExpression: (e) => {
+				return this.lexpr + ' ' + this.op + ' ' + this.rexpr;
+			},
+			Method: (e) => {
+				const names = e.sel.split(':').slice(0, -1);
+				const string = names.map((n, i) => n + ': ' + e.args[i]).join(', ');
+				return '(' + string + ') => ' + e.block;
+			},
+			List: (e) => {
+				return '[' + this.items.join(', ') + ']';
+			},
+			Dictionary: (e) => {
+				if (this.items.length > 0) {
+					return '[' + this.items.join(', ') + ']';
+				} else {
+					return '[:]';
+				}
+			},
+			Bottom: (e) => { return '_'; },
+			Error: (e) => {
+				return '#- ERROR: ' + e.message + '. `' + e.encountered + '` -#';
 			}
 		};
 		return this.pullUp(makeTransform(xform));
 	}
 };
+
 
 module.exports = {
 	makeTransform: makeTransform,
