@@ -16,6 +16,26 @@ Envelope.prototype = Object.assign(Object.create(Node.prototype), {
 });
 
 
+function AngleBars(exprs, opts) {
+	Envelope.call(this, '<||>', opts);
+	this.exprs = exprs;
+}
+
+AngleBars.prototype = Object.assign(Object.create(Envelope.prototype), {
+	constructor: AngleBars
+});
+
+
+function AngleBrackets(exprs, opts) {
+	Envelope.call(this, '<[]>', opts);
+	this.exprs = exprs;
+}
+
+AngleBrackets.prototype = Object.assign(Object.create(Envelope.prototype), {
+	constructor: AngleBrackets
+});
+
+
 function Braces(exprs, opts) {
 	Envelope.call(this, '{}', opts);
 	this.exprs = exprs;

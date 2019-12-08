@@ -24,7 +24,8 @@ expression
 
 term = identifier
 	/ symbol
-	// angles
+	/ anglebars
+	/ anglebracks
 	/ brackets
 	/ parens
 	/ braces
@@ -55,11 +56,19 @@ operator "operator"
 	/ '/'
 	/ '%'
 	/ '&'
-	/ '|'
+	/ '|' !'>'
 	/ '^'
 	/ ':'
 	/ '='
+	/ '<' !('|' / '[')
+	/ '>'
 	/ '?'
+
+anglebars
+	= '<|' exprlist:expression_list '|>' { return new AngleBars(exprlist); }
+
+anglebracks
+	= '<[' exprlist:expression_list ']>' { return new AngleBrackets(exprlist); }
 
 parens
 	= '(' exprlist:expression_list ')' { return new Parens(exprlist); }
@@ -68,7 +77,7 @@ braces
 	= '{' exprlist:expression_list '}' { return new Braces(exprlist); }
 
 brackets
-	= '[' exprlist:expression_list ']' { return new Brackets(exprlist); }
+	= '[' exprlist:expression_list ']' !'>' { return new Brackets(exprlist); }
 
 symbol "symbol"
 	= '.' l:label_char+ { return new Symbol(l.join('')); }

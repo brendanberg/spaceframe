@@ -37,6 +37,12 @@ Node.prototype = {
 					return '{' + e.exprs.join('\n') + '}';
 				}
 			},
+			AngleBars: (e) => {
+				return '<| ' + e.exprs.join(', ') + ' |>';
+			},
+			AngleBrackets: (e) => {
+				return '<[ ' + e.exprs.join(', ') + ' ]>';
+			},
 			Brackets: (e) => { return '[' + e.exprs.join(', ') + ']'; },
 			Parens: (e) => { return '(' + e.exprs.join(', ') + ')'; },
 			Expression: (e) => { return e.atoms.join(' '); },
