@@ -39,7 +39,7 @@ Node.prototype = {
 			},
 			Brackets: (e) => { return '[' + e.exprs.join(', ') + ']'; },
 			Parens: (e) => { return '(' + e.exprs.join(', ') + ')'; },
-			Expression: (e) => { return e.terms.join(' '); },
+			Expression: (e) => { return e.atoms.join(' '); },
 			Identifier: (e) => { return e.label + (e.modifier || ''); },
 			Symbol: (e) => { return '.' + e.label; },
 			Operator: (e) => { return e.label; },

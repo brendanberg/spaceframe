@@ -46,14 +46,14 @@ Parens.prototype = Object.assign(Object.create(Envelope.prototype), {
 });
 
 
-function Expression(terms, opts) {
+function Expression(atoms, opts) {
 	Node.call(this, opts);
-	this.terms = terms;
+	this.atoms = atoms;
 }
 
 Expression.prototype = Object.assign(Object.create(Envelope.prototype), {
 	gmapt: function(fn) {
-		return new this.constructor(this.terms.map(fn), this.opts);
+		return new this.constructor(this.atoms.map(fn), this.opts);
 	},
 	constructor: Expression
 });
