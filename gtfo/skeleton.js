@@ -80,7 +80,7 @@ Expression.prototype = Object.assign(Object.create(Envelope.prototype), {
 
 
 function Atom(opts) {
-	Node(this, opts);
+	Node.call(this, opts);
 }
 
 Atom.prototype = Object.assign(Object.create(Node.prototype), {

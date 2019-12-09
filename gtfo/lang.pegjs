@@ -22,7 +22,9 @@ expression
 			return new Expression([first].concat(rest));
 		}
 
-term = identifier
+term
+	= selector
+	/ identifier
 	/ symbol
 	/ anglebars
 	/ anglebracks
@@ -30,7 +32,6 @@ term = identifier
 	/ parens
 	/ braces
 	/ number
-	/ selector
 	/ "'" t:single_quote_string* "'" {
 			let chars = punycode.ucs2.decode(t.join(''));
 			return new Text(chars);

@@ -692,23 +692,23 @@ function peg$parse(input, options) {
   function peg$parseterm() {
     var s0, s1, s2, s3;
 
-    s0 = peg$parseidentifier();
+    s0 = peg$parseselector();
     if (s0 === peg$FAILED) {
-      s0 = peg$parsesymbol();
+      s0 = peg$parseidentifier();
       if (s0 === peg$FAILED) {
-        s0 = peg$parseanglebars();
+        s0 = peg$parsesymbol();
         if (s0 === peg$FAILED) {
-          s0 = peg$parseanglebracks();
+          s0 = peg$parseanglebars();
           if (s0 === peg$FAILED) {
-            s0 = peg$parsebrackets();
+            s0 = peg$parseanglebracks();
             if (s0 === peg$FAILED) {
-              s0 = peg$parseparens();
+              s0 = peg$parsebrackets();
               if (s0 === peg$FAILED) {
-                s0 = peg$parsebraces();
+                s0 = peg$parseparens();
                 if (s0 === peg$FAILED) {
-                  s0 = peg$parsenumber();
+                  s0 = peg$parsebraces();
                   if (s0 === peg$FAILED) {
-                    s0 = peg$parseselector();
+                    s0 = peg$parsenumber();
                     if (s0 === peg$FAILED) {
                       s0 = peg$currPos;
                       if (input.charCodeAt(peg$currPos) === 39) {
