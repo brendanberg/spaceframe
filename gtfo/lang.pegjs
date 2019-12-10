@@ -23,7 +23,8 @@ expression
 		}
 
 term
-	= selector
+	= n_ary_selector
+	/ unary_selector
 	/ identifier
 	/ symbol
 	/ anglebars
@@ -89,11 +90,14 @@ identifier "identifier"
 		return new Identifier(l, mod);
 	}
 
-selector "selector"
-	= parts:selector_segment+ { return new Identifier(parts.join(''), null); }
+n_ary_selector "selector"
+	= first:unary_selector rest:unary_selector+ {
+			const parts = [first.label].concat(rest.map((e) => e.label));
+			return new Identifier(parts.join(''), null, {as: 'n_ary_selector'});
+		}
 
-selector_segment
-	= l:label ':' { return l + ':'; }
+unary_selector
+	= l:label ':' { return new Identifier(l + ':', null, {as: 'unary_selector'}); }
 
 postfix_modifier
 	= '?' / '!'
