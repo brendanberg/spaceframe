@@ -1,6 +1,6 @@
 "use strict";
 
-const { Node, makeTransform } = require('./node');
+const { Node } = require('./node');
 
 
 function Envelope(shape, opts) {
@@ -160,7 +160,6 @@ Comment.prototype.constructor = Comment;
 
 
 module.exports = {
-	makeTransform: makeTransform,
 	Node: Node,
 	Atom: Atom,
 	Envelope: Envelope,
