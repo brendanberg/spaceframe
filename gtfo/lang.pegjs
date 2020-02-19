@@ -18,7 +18,7 @@ expression_list
 	/ __ _S? __ { return []; }
 
 expression
-	= first:term rest:(_ t:term { return t; })* _ {
+	= first:term rest:(_ t:term { return t; })* _opt {
 			return new Expression([first].concat(rest));
 		}
 
@@ -102,7 +102,7 @@ unary_selector
 postfix_modifier
 	= '?' / '!'
 
-label
+label "label"
 	= first:label_start rest:label_char* { return first + rest.join(''); }
 
 label_start
@@ -126,14 +126,14 @@ label_char
 
 
 number "number"
-	= hex
-	/ imaginary
+	= imaginary
+	/ hex
 	/ scientific
 	/ decimal
 	/ integer
 
 integer
-	= '0' { return Integer.clone({value: 0, sourceBase: 10}); }
+	= '0' { return new Integer(0, {sourceBase: 10}); }
 	/ first:[1-9] rest:[0-9]* {
 		const val = parseInt(first + rest.join(''), 10);
 		return new Integer(val, {sourceBase: 10});
@@ -141,20 +141,27 @@ integer
 
 decimal
 	= int:integer '.' !'.' digits:[0-9]* {
-		const fraction = parseInt(digits.join(''), 10) || 0;
-		// OOF
+		const fraction = parseFloat('0.' + digits.join(''), 10) || 0;
+		return new Decimal(int.value + fraction);
 	}
 
 scientific
-	= sig:integer [eE] [+-]? mant:integer {
-			return new Decimal(0.0);
+	= sig:integer [eE] sign:[+-]? mant:integer {
+			sign = sign || '+';
+			let value = parseFloat(sig.value.toString() + 'e' + sign + mant.value.toString());
+			return new Decimal(value, {as: 'scientific'});
 		}
-	/ sig:decimal [eE] [+-]? mant:integer {
-			return new Decimal(0.0);
+	/ sig:decimal [eE] sign:[+-]? mant:integer {
+			sign = sign || '+';
+			let value = parseFloat(sig.value.toString() + 'e' + sign + mant.value.toString());
+			return new Decimal(value, {as: 'scientific'});
 		}
 
 hex
-	= '0x' pad:'0'* first:[1-9a-fA-F] rest:[0-9a-fA-F]* { }
+	= '0x' pad:'0'* first:[1-9a-fA-F] rest:[0-9a-fA-F]* { 
+			let value = parseInt(first + rest.join(''), 16);
+			return new Integer(value, {sourceBase: 16});
+		}
 	/ '0x0' { return new Integer(0, {sourceBase: 16}); }
 
 imaginary
@@ -193,14 +200,18 @@ codepoint "codepoint"
 X "hex"
 	= ch:[0-9a-fA-F]
 
-_ "whitespace"
+_opt
 	= (comment / whitespace)*
+
+_ "whitespace"
+	// Required whitespace
+	= (comment / whitespace)+
 
 __ "whitespace"
 	= (comment / linespace)*
 
 _S "separator"
-	= _ [,\n] __
+	= _opt [,\n] __
 
 whitespace
 	= [ \t]+

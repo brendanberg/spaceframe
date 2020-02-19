@@ -1,6 +1,7 @@
 "use strict";
 
 const { Node } = require('./node');
+const punycode = require('punycode');
 
 
 function Envelope(shape, opts) {
@@ -118,8 +119,12 @@ function Text(value, opts) {
 	this.value = value;
 }
 
-Text.prototype = Object.create(Atom.prototype);
-Text.prototype.constructor = Text;
+Text.prototype = Object.assign(Object.create(Node.prototype), {
+	utf8string: function () {
+		return punycode.ucs2.encode(this.value);
+	},
+	constructor: Text
+});
 
 function Integer(value, opts) {
 	Atom.call(this, opts);

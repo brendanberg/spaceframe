@@ -32,6 +32,7 @@ Assign.prototype = Object.assign(Object.create(Node.prototype), {
 
 
 function MessageSend(receiver, selector, args, opts) {
+	// TODO: Should the selector be an Identifier?
 	Node.call(this, opts);
 	this.receiver = receiver;
 	this.selector = selector;

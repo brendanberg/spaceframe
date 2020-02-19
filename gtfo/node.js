@@ -67,7 +67,20 @@ Node.prototype = {
 					return "'" + repr.replace(/'/g, "\\'") + "'";
 				}
 			},
-			Integer: (e) => { return e.value.toString(); },
+			Integer: (e) => {
+				if (e.sourceBase) {
+					return e.value.toString(e.sourceBase);
+				} else {
+					return e.value.toString(10);
+				}
+			},
+			Decimal: (e) => { 
+				if (e.opts.as === 'scientific') {
+					return e.value.toExponential();
+				} else {
+					return e.value.toString();
+				}
+			},
 			Complex: (e) => { return (e.real ? e.real + ' + ' : '') + e.imaginary + 'j'; },
 			Comment: (e) => {
 				if (e.opts.source === 'inline') {
@@ -125,6 +138,12 @@ Node.prototype = {
 			}
 		};
 		return this.pullUp(makeTransform(xform));
+	},
+	parse: function() {
+		const xform = {
+			// TODO: what is this supposed to look like?	
+		};
+		return this.pushDown(makeTransform(xform));
 	}
 };
 
