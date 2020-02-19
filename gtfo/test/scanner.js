@@ -54,6 +54,12 @@ describe('Scanner', () => {
 		module = parse('c!');
 		assert.equal(module.label, 'c');
 		assert.equal(module.modifier, '!');
+
+		module = parse('kebab-case');
+		assert.equal(module.label, 'kebab-case');
+
+		module = parse('snake_case');
+		assert.equal(module.label, 'snake_case');
 	});
 
 	it('parses symbols', () => {
@@ -61,7 +67,18 @@ describe('Scanner', () => {
 		assert.instanceOf(module, skel.Symbol);
 		assert.equal(module.label, 'a');
 
-		
+		module = parse('.0');
+		assert.instanceOf(module, skel.Symbol);
+		assert.equal(module.label, '0');
+
+		module = parse('.kebab-case');
+		assert.equal(module.label, 'kebab-case');
+
+		module = parse('.snake_case');
+		assert.equal(module.label, 'snake_case');
+
+		module = parse('._-_');
+		assert.equal(module.label, '_-_');
 	});
 
 	it('parses operators', () => {
